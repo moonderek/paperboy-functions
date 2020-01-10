@@ -3,6 +3,8 @@ const express = require("express");
 const { db } = require("./util/admin");
 const app = express();
 const firebase = require("firebase");
+const admin = require("firebase-admin");
+
 const config = {
   apiKey: "AIzaSyAnZC-ur8kgNBOaYXrSkCzPb8VuwRaxgCQ",
   authDomain: "paperboy-c6073.firebaseapp.com",
@@ -35,11 +37,46 @@ app.get("/accounts", (req, res) => {
     .catch(err => console.error(err));
 });
 
-//Create new Account
-app.post("/account", (req, res) => {
+const FBAuth = (req, res, next) => {
+  let idToken;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer ")
+  ) {
+    idToken = req.headers.authorization.split("Bearer ")[1];
+  } else {
+    console.error("No token found");
+    return res.status(403).json({ error: "Unauthorized" });
+  }
+
+  admin
+    .auth()
+    .verifyIdToken(idToken)
+    .then(decodedToken => {
+      req.user = decodedToken;
+      console.log(decodedToken);
+      return db
+        .collection("users")
+        .where("userId", "==", req.user.uid)
+        .limit(1)
+        .get();
+    })
+    .then(data => {
+      req.user.username = data.docs[0].data().username;
+      return next();
+    })
+    .catch(err => {
+      console.error("Error while verifying token", err);
+      return res.status(403).json(err);
+    });
+};
+
+//Post new Account
+app.post("/account", FBAuth, (req, res) => {
   const newLocation = {
     name: req.body.name,
-    location: req.body.location
+    location: req.body.location,
+    username: req.user.username
   };
   admin
     .firestore()
