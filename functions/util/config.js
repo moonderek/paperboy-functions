@@ -1,4 +1,4 @@
-const firebaseConfig = {
+module.exports = {
   apiKey: "AIzaSyAnZC-ur8kgNBOaYXrSkCzPb8VuwRaxgCQ",
   authDomain: "paperboy-c6073.firebaseapp.com",
   databaseURL: "https://paperboy-c6073.firebaseio.com",
