@@ -6,7 +6,7 @@ const FBAuth = require("./util/fbAuth");
 //Import Handlers
 const { getAllAccounts } = require("./Handlers/accounts");
 const { postOneAccount } = require("./Handlers/accounts");
-const { postOneItem } = require("./handlers/items");
+const { postOneItem, getAllItems } = require("./handlers/items");
 const { signup, login, uploadImage } = require("./handlers/users");
 
 //ACCOUNT ROUTES
@@ -24,6 +24,7 @@ app.post("/user/image", FBAuth, uploadImage);
 
 //ITEM ROUTES
 app.post("/item", FBAuth, postOneItem);
+app.get("/items", FBAuth, getAllItems);
 
 //must tell firebase that express is the container for our routes
 exports.api = functions.https.onRequest(app);
