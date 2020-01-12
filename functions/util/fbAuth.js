@@ -18,7 +18,7 @@ module.exports = (req, res, next) => {
 
     .then(decodedToken => {
       req.user = decodedToken;
-      console.log(decodedToken);
+      // console.log(decodedToken);
 
       return db
         .collection("users")

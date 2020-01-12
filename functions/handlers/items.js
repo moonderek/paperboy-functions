@@ -27,6 +27,7 @@ exports.postOneItem = (req, res) => {
 exports.getAllItems = (req, res) => {
   userId = req.user.uid;
   db.collection("items")
+    //looks for the userId in the item doc that matches the user requesting the data!
     .where("userId", "==", userId)
     .get()
     .then(data => {
@@ -34,7 +35,8 @@ exports.getAllItems = (req, res) => {
       data.forEach(doc => {
         items.push({
           itemId: doc.id,
-          name: doc.data().name
+          name: doc.data().name,
+          cost: doc.data().cost
         });
       });
       return res.json(items);

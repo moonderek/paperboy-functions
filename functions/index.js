@@ -8,6 +8,7 @@ const { getAllAccounts } = require("./Handlers/accounts");
 const { postOneAccount } = require("./Handlers/accounts");
 const { postOneItem, getAllItems } = require("./handlers/items");
 const { signup, login, uploadImage } = require("./handlers/users");
+const { postOneStop } = require("./handlers/stops");
 
 //ACCOUNT ROUTES
 //Get All Accounts Route
@@ -23,8 +24,14 @@ app.post("/login", login);
 app.post("/user/image", FBAuth, uploadImage);
 
 //ITEM ROUTES
+//Create an item for delivery
 app.post("/item", FBAuth, postOneItem);
+//Get all items that a user created
 app.get("/items", FBAuth, getAllItems);
+
+//STOP ROUTES
+//Create a stop for delivery
+app.post("/stop", FBAuth, postOneStop);
 
 //must tell firebase that express is the container for our routes
 exports.api = functions.https.onRequest(app);
