@@ -4,8 +4,8 @@ const app = express();
 const FBAuth = require("./util/fbAuth");
 
 //Import Handlers
-const { getAllAccounts } = require("./Handlers/accounts");
-const { postOneAccount } = require("./Handlers/accounts");
+const { getAllAccounts } = require("./handlers/accounts");
+const { postOneAccount } = require("./handlers/accounts");
 const { postOneItem, getAllItems } = require("./handlers/items");
 const { signup, login, uploadImage } = require("./handlers/users");
 const { postOneStop } = require("./handlers/stops");
