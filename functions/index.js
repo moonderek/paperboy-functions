@@ -7,7 +7,12 @@ const FBAuth = require("./util/fbAuth");
 const { getAllAccounts } = require("./handlers/accounts");
 const { postOneAccount } = require("./handlers/accounts");
 const { postOneItem, getAllItems } = require("./handlers/items");
-const { signup, login, uploadImage } = require("./handlers/users");
+const {
+  signup,
+  login,
+  uploadImage,
+  getAuthenticatedUser
+} = require("./handlers/users");
 const { postOneStop } = require("./handlers/stops");
 
 //ACCOUNT ROUTES
@@ -22,6 +27,7 @@ app.post("/signup", signup);
 //Login Route
 app.post("/login", login);
 app.post("/user/image", FBAuth, uploadImage);
+app.get("/user", FBAuth, getAuthenticatedUser);
 
 //ITEM ROUTES
 //Create an item for delivery
